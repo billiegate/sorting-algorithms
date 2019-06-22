@@ -18,12 +18,12 @@ Giving an unsorted item list of [2, 4, 1, 9, 3, 5]
 <h5>ex. 1</h5>
 <pre>
 let unsorted = [2, 4, 1, 9, 3, 5]; <br/>
-let sorted = quickSort[unsorted]; <br/>
+let sorted = quickSort(unsorted); <br/>
 console.log(sorted) // [1, 2, 3, 4, 5, 9] <br/>
 </pre>
 <h5>ex. 2</h5>
 <pre>
 let unsorted = [2, 4, 1, 9, 3, 5]; <br/>
-let sorted = quickSort[unsorted, true]; //sorts in the reverse order <br/>
+let sorted = quickSort(unsorted, true); //sorts in the reverse order <br/>
 console.log(sorted) // [9, 5, 4, 3, 2, 1] <br/>
 </pre>
