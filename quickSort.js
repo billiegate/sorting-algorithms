@@ -1,55 +1,98 @@
-function minimumSwaps (ratings) {
+/** 
+ * @method sort a list by swapping
+ * 
+ * @param array items
+ * @param boolean reverse
+ * @returns array sorted
+*/
+function quickSort (items, reverse) {
   
-  var num_swap = 0, was_swapped = false;
-  let n = ratings.length-1;
+  reverse = typeof reverse === 'undefined' ? false : reverse;
+  var num_swap = 0; // number of swaps
+  let n = items.length-1; // index of the last item in array
   
-  
-  const swap = (ratings, l, r) => {
-    if(ratings[l] < ratings[r]) {
-      var temp = ratings[l];
-      ratings[l] = ratings[r];
-      ratings[r] = temp;
+  /** 
+   * @method swaps two element in the array list
+   * 
+   * @param array items
+   * @param int l - left pointer
+   * @param int r - right pointer
+  */
+  const swap = (items, l, r) => {
+
+    if( reverse && items[l] < items[r]) {
+      var temp = items[l];
+      items[l] = items[r];
+      items[r] = temp;
+      num_swap++;
+    } else if(items[l] > items[r]){
+      var temp = items[r];
+      items[r] = items[l];
+      items[l] = temp;
       num_swap++;
     }
   }
   
-  const partition = (ratings, l, r) => {
-    var pivot   = ratings[Math.floor((r + l) / 2)], //middle element
-        i       = l, //left pointer
-        j       = r; //right pointer
-        was_swapped = false;
+  /** 
+   * @method partitions the array from the middle and 
+   * 
+   * @param array items
+   * @param int i - left pointer
+   * @param int j - right pointer
+   * @returns int i
+  */
+  const partition = (items, i, j) => {
+    var pivot   = items[Math.floor((j + i) / 2)], //middle element
     
-        while (ratings[i] > pivot) {
-            i++;
-        }
-        while (ratings[j] < pivot) {
-            j--;
-        }
-        if (i <= j) {
-            swap(ratings, i, j); //sawpping two elements
-            i++;
-            j--;
-            was_swapped = true;
-        }
+    if(reverse) {
+      while (items[i] > pivot) {
+        i++;
+      }
+      while (items[j] < pivot) {
+        j--;
+      }
+    } else {
+      while (items[i] < pivot) {
+        i++;
+      }
+      while (items[j] > pivot) {
+        j--;
+      }
+    }
     
+    if (i <= j) {
+      swap(items, i, j); //sawpping two elements
+      i++;
+      j--;
+    }
+
     return i;
   }
   
-  const quickSort = (items, left, right) => {
+  /** 
+   * @method recursively sort the array
+   * 
+   * @param array items
+   * @param int left - left pointer
+   * @param int right - right pointer
+   * @returns array items
+  */
+  const _quickSort = (items, left, right) => {
     let index;
     if (items.length > 1) {
         index = partition(items, left, right); //index returned from partition
         if (left < index - 1) { //more elements on the left side of the pivot
-            quickSort(items, left, index - 1);
+            _quickSort(items, left, index - 1);
         }
         if (right > index) { //more elements on the right side of the pivot
-            quickSort(items, index, right);
+            _quickSort(items, index, right);
         }
     }
     return items;
   }
   
-  quickSort(ratings, 0, n);
+  //init _quickSort
+  let sorted = _quickSort(items, 0, n);
   
-  return num_swap;
+  return sorted;
 }
